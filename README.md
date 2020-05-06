@@ -1,4 +1,8 @@
-# example-game
+# Amethyst Pong
+
+## Description
+
+This is an implementation of the pong example from the Amethyst Game Engine's Manuel. I am using it to help learn about rust through building a simple game. Once I am done with this example game, I will start developing a seperate simple game and update this repo.
 
 ## How to run
 
