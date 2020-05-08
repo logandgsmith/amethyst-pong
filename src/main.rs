@@ -7,6 +7,7 @@ use amethyst::{
         RenderingBundle,
     },
     utils::application_root_dir,
+    input::{InputBundle, StringBindings};
 };
 
 mod pong;
@@ -16,13 +17,21 @@ fn main() -> amethyst::Result<()> {
     // Setup logging
     amethyst::start_logger(Default::default());
 
+    // Setup the assets directory
+    let assets_dir = app_root.join("assets");
+
     // Prepare the display config
     let app_root = application_root_dir()?;
     let display_config_path = app_root.join("config").join("display.ron");
 
+    // Prepare the input config
+    let binding_path = InputBundle::<StringBindings>::new()
+        .with_bindings_from_file(binding_path)?;
+
     // Application setup
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
+        .with_bundle(input_bundle)?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
@@ -32,10 +41,9 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default()),
         )?;
 
-    let assets_dir = app_root.join("assets");
+    // Run the game
     let mut game = Application::new(assets_dir, Pong, game_data)?;
     game.run();
-
 
     Ok(())
 }
